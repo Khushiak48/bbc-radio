@@ -6,27 +6,62 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 
 import cucumber.api.DataTable;
+import cucumber.api.Scenario;
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import cucumber.api.testng.AbstractTestNGCucumberTests;
 
 /**
  * Step definition implementation of radio nav feature files
  *
  * @author Khushboo Taneja
  */
-public class BBCRadioStepDefs {
-
+public class BBCRadioStepDefs extends AbstractTestNGCucumberTests{
+	
+	public static String browserType;
+	
 	/** The driver. */
-	private WebDriver driver;
+	public WebDriver driver;
 
 	/** The section element. */
 	private WebElement sectionElement;
+	
+	// Passing Browser parameter from TestNG xml
+	@Before
+	public void beforeTest() {
+		
+		//Default Firefox driver
+		if (null == browserType || browserType.equalsIgnoreCase("firefox")) {
+			System.out.println("*************** Firefox ***********");
+			driver = new FirefoxDriver();
+			driver.manage().window().maximize();
 
+		} else if (browserType.equalsIgnoreCase("ie")) {
+
+			driver = new InternetExplorerDriver();
+
+		} else if (browserType.equalsIgnoreCase("chrome")) {
+			System.out.println("*************** chrome ***********");
+			
+			driver = new ChromeDriver();
+			
+			//Having issue in maximize. Issue fixed in chromDriver29.0 version, but 29.0 have another issue
+//			driver.manage().window().maximize();
+
+		}
+
+	}
+	
 	/**
 	 * Create FirefoxDriver session, open "http://www.bbc.co.uk/radio" and
 	 * maximize the window
@@ -36,9 +71,7 @@ public class BBCRadioStepDefs {
 	 */
 	@Given("^I can see the radio nav$")
 	public void i_can_see_the_radio_nav() throws Throwable {
-		driver = new FirefoxDriver();
 		driver.get("http://www.bbc.co.uk/radio");
-		driver.manage().window().maximize();
 		Thread.sleep(2000);
 	}
 

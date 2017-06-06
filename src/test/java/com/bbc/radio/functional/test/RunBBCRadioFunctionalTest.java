@@ -3,7 +3,9 @@
  */
 package com.bbc.radio.functional.test;
 
+import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
@@ -22,5 +24,12 @@ import cucumber.api.junit.Cucumber;
 )
 
 public class RunBBCRadioFunctionalTest {
+	
+	/*@BeforeClass
+	public void driverSetup(){
+		
+		BBCRadioStepDefs.driver = new FirefoxDriver();
+		
+	}*/
 
 }
